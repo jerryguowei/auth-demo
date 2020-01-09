@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class User {
     
     private String password;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true,fetch = FetchType.EAGER)
     private List<UserAuthority> authorities = new ArrayList<>();
 
     public int getId() {
@@ -79,6 +80,10 @@ public class User {
     public void removeAuthority(UserAuthority authority) {
     	this.authorities.remove(authority);
     }
+    
+	public List<UserAuthority> getAuthorities() {
+		return authorities;
+	}
 
 	@Override
 	public int hashCode() {
