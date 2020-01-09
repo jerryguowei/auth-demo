@@ -1,10 +1,15 @@
 package com.duduanan.authdemo.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name = "user_info")
 public class User {
@@ -20,7 +25,12 @@ public class User {
     
     private String email;
     
+    private boolean active;
+    
     private String password;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<UserAuthority> authorities = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -61,4 +71,42 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public void addAuthority(UserAuthority authority) {
+    	this.authorities.add(authority);
+    }
+    
+    public void removeAuthority(UserAuthority authority) {
+    	this.authorities.remove(authority);
+    }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}   
 }
