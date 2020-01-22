@@ -49,7 +49,7 @@ public class Oauth2ServerConfig implements AuthorizationServerConfigurer {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenEnhancer(new CustomTokenEnhancer()).tokenStore(new RedisTokenStore(redisConnectionFactory)).userDetailsService(authUserDetailsService).authenticationManager(authenticationManager);
+        endpoints.reuseRefreshTokens(false).tokenEnhancer(new CustomTokenEnhancer()).tokenStore(new RedisTokenStore(redisConnectionFactory)).userDetailsService(authUserDetailsService).authenticationManager(authenticationManager);
     }
 
 }
