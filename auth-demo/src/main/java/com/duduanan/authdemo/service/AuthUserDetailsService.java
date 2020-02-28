@@ -28,7 +28,6 @@ public class AuthUserDetailsService implements UserDetailsService {
 			return userDetails;
 		}
 		logger.info("not found user for username - " + username);
-		return null;
+		throw new UsernameNotFoundException("user name is not found.");
 	}
-
 }
